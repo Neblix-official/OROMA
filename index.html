@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>كافيه أروما | Coffee Oroma Café</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap');
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #f8f5f2;
+            scroll-behavior: smooth;
+        }
+        .gradient-text {
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: #8B5A2B;
+        }
+        .menu-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+        }
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        .mobile-menu {
+            transition: all 0.4s ease-in-out;
+            transform: translateX(100%);
+            background-color: #8B5A2B;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(1px);
+            height: 100vh;
+            width: 50%;
+        }
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+        .section-divider {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(to bottom, #5D4037, transparent);
+        }
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        .coffee-bg {
+            background-image: url('https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: multiply;
+        }
+        .hero-bg {
+            background-image: url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+        .map-bg {
+            background-image: url('https://maps.googleapis.com/maps/api/staticmap?center=24.7136,46.6753&zoom=15&size=800x400&maptype=roadmap&markers=color:red%7C24.7136,46.6753&key=YOUR_API_KEY');
+            background-size: cover;
+            background-position: center;
+        }
+        .header-no-shadow {
+            box-shadow: none !important;
+        }
+        .menu-item {
+            position: relative;
+            overflow: hidden;
+        }
+        .menu-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 0;
+            height: 2px;
+            background: #f8f5f2;
+            transition: width 0.3s ease;
+        }
+        .menu-item:hover::after {
+            width: 100%;
+        }
+        .progress-container {
+            width: 100%;
+            height: 4px;
+            background: #D7CCC8;
+            position: fixed;
+            top: 0;
+            z-index: 100;
+        }
+        .progress-bar {
+            height: 4px;
+            background: #8B5A2B;
+            width: 0%;
+        }
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease;
+        }
+        .animate-on-scroll.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .menu-tabs button.active {
+            background-color: #8B5A2B;
+            color: white;
+        }
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+        .gallery-item img {
+            transition: transform 0.5s ease;
+        }
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+        .reservation-form input, 
+        .reservation-form select, 
+        .reservation-form textarea {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+        .reservation-form input:focus, 
+        .reservation-form select:focus, 
+        .reservation-form textarea:focus {
+            outline: none;
+            border-color: #8B5A2B;
+        }
+        .reservation-form input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .swiper-pagination-bullet {
+            background: rgba(255, 255, 255, 0.5);
+            width: 10px;
+            height: 10px;
+        }
+        .swiper-pagination-bullet-active {
+            background: #8B5A2B;
+        }
+    </style>
+</head>
+<body class="text-primary antialiased">
+    <!-- شريط التقدم -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- شريط التنقل -->
+    <header class="bg-white/90 backdrop-blur-md sticky top-0 z-50 shadow-sm transition-all duration-300">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="text-2xl md:text-3xl font-black gradient-text">
+                <span>أروما</span> OROMA
+            </div>
+            <nav class="hidden md:block">
+                <ul class="flex space-x-8 space-x-reverse">
+                    <li class="menu-item"><a href="#menu" class="hover:text-[#8B5A2B] transition-all duration-300 font-medium px-3 py-2 rounded-lg">المنيو</a></li>
+                    <li class="menu-item"><a href="#gallery" class="hover:text-[#8B5A2B] transition-all duration-300 font-medium px-3 py-2 rounded-lg">معرض الصور</a></li>
+                    <li class="menu-item"><a href="#about" class="hover:text-[#8B5A2B] transition-all duration-300 font-medium px-3 py-2 rounded-lg">عنّا</a></li>
+                    <li class="menu-item"><a href="#testimonials" class="hover:text-[#8B5A2B] transition-all duration-300 font-medium px-3 py-2 rounded-lg">آراء العملاء</a></li>
+                    <li class="menu-item"><a href="#contact" class="hover:text-[#8B5A2B] transition-all duration-300 font-medium px-3 py-2 rounded-lg">تواصل</a></li>
+                </ul>
+            </nav>
+            <button class="mobile-menu-button md:hidden text-2xl" onclick="toggleMenu()">☰</button>
+        </div>
+        
+        <!-- القائمة المتنقلة -->
+        <div id="mobileMenu" class="mobile-menu fixed inset-0 z-40 pt-20 px-6 md:hidden">
+            <ul class="space-y-6 text-xl">
+                <li class="menu-item"><a href="#menu" class="block py-3 border-b border-white/10 text-white" onclick="toggleMenu()">المنيو</a></li>
+                <li class="menu-item"><a href="#gallery" class="block py-3 border-b border-white/10 text-white" onclick="toggleMenu()">معرض الصور</a></li>
+                <li class="menu-item"><a href="#about" class="block py-3 border-b border-white/10 text-white" onclick="toggleMenu()">عنّا</a></li>
+                <li class="menu-item"><a href="#testimonials" class="block py-3 border-b border-white/10 text-white" onclick="toggleMenu()">آراء العملاء</a></li>
+                <li class="menu-item"><a href="#contact" class="block py-3 border-b border-white/10 text-white" onclick="toggleMenu()">تواصل</a></li>
+                <li class="menu-item"><a href="#reservation" class="block py-3 border-b border-white/10 text-white" onclick="toggleMenu()">حجز طاولة</a></li>
+            </ul>
+            
+            <div class="absolute bottom-10 right-6 left-6">
+                <div class="flex space-x-6 space-x-reverse justify-center">
+                    <a href="tel:+966503333222" class="bg-[#8B5A2B] text-white p-3 rounded-full">
+                        <i class="fa fa-phone"></i>
+                    </a>
+                    <a href="https://instagram.com/coffeeoromiffa" class="bg-[#8B5A2B] text-white p-3 rounded-full">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://goo.gl/maps/example" class="bg-[#8B5A2B] text-white p-3 rounded-full">
+                        <i class="fa fa-map-marker-alt"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- قسم الهيرو الرئيسي -->
+    <section class="relative overflow-hidden hero-bg">
+        <div class="absolute inset-0 bg-gradient-to-r from-[#5D4037]/80 to-[#5D4037]/40"></div>
+        <div class="container mx-auto px-4 py-32 md:py-48 relative z-10">
+            <div class="max-w-2xl text-right">
+                <h1 class="text-4xl md:text-6xl font-black text-white mb-6 leading-tight animate-on-scroll">
+                    <span class="gradient-text">تجربة</span> قهوة لا تُنسى
+                </h1>
+                <p class="text-xl md:text-2xl text-[#D7CCC8] mb-10 max-w-xl animate-on-scroll">
+                    اكتشف فن صناعة القهوة المختصة في أجواء مميزة تتناغم مع رائحة القهوة الطازجة
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 animate-on-scroll">
+                    <a href="#menu" class="bg-[#8B5A2B] hover:bg-opacity-90 text-white font-bold py-3 px-8 rounded-full text-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                        تصفح المنيو
+                    </a>
+                    <a href="#reservation" class="border-2 border-white/30 hover:border-[#8B5A2B] text-white font-bold py-3 px-8 rounded-full text-lg transition-all duration-300 hover:bg-white/10">
+                        احجز طاولتك
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- فنجان قهوة متحرك -->
+        <div class="absolute bottom-20 left-10 hidden lg:block floating">
+            <div class="bg-white rounded-full p-4 shadow-xl">
+                <img src="https://cdn-icons-png.flaticon.com/512/924/924514.png" class="w-20" alt="Coffee cup">
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم معرض الصور -->
+    <section id="gallery" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-black mb-4 animate-on-scroll">معرض أروما كافيه</h2>
+                <p class="text-lg text-[#5D4037]/70 max-w-2xl mx-auto animate-on-scroll">اكتشف أجواءنا المميزة وتجارب عملائنا الفريدة</p>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="gallery-item animate-on-scroll">
+                    <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Coffee shop interior" class="w-full h-48 object-cover">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus text-white text-2xl"></i>
+                    </div>
+                </div>
+                <div class="gallery-item animate-on-scroll">
+                    <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Coffee making" class="w-full h-48 object-cover">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus text-white text-2xl"></i>
+                    </div>
+                </div>
+                <div class="gallery-item animate-on-scroll">
+                    <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Coffee with friends" class="w-full h-48 object-cover">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus text-white text-2xl"></i>
+                    </div>
+                </div>
+                <div class="gallery-item animate-on-scroll">
+                    <img src="https://images.unsplash.com/photo-1497636577773-f1231844b336?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Coffee shop atmosphere" class="w-full h-48 object-cover">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus text-white text-2xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم عنّا -->
+    <section id="about" class="relative py-20 bg-[#f5f1ee]">
+        <div class="container mx-auto px-4 py-12">
+            <div class="flex flex-col md:flex-row items-center gap-8">
+                <div class="md:w-1/2 relative animate-on-scroll">
+                    <div class="relative rounded-2xl overflow-hidden shadow-2xl">
+                        <div class="coffee-bg w-full h-80 md:h-96"></div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#5D4037]/70 via-[#5D4037]/30 to-transparent"></div>
+                    </div>
+                    <div class="absolute -bottom-4 -right-4 bg-[#8B5A2B] text-white px-6 py-3 rounded-lg shadow-lg">
+                        <span class="block text-xl font-black">2020</span>
+                        <span class="text-sm">سنة التأسيس</span>
+                    </div>
+                </div>
+                <div class="md:w-1/2 text-right mt-8 md:mt-0 animate-on-scroll">
+                    <h2 class="text-3xl md:text-4xl font-black mb-6 relative inline-block">
+                        <span class="gradient-text">قصتنا</span>
+                        <span class="absolute bottom-0 right-0 w-1/2 h-1 bg-[#8B5A2B] rounded-full"></span>
+                    </h2>
+                    <p class="text-lg mb-6 leading-relaxed">
+                        أروما كافيه هو وجهة عشاق القهوة المختصة في الرياض، حيث نقدم تجربة فريدة تجمع بين أصالة القهوة وحداثة التقديم.
+                    </p>
+                    <p class="text-lg mb-8 text-[#5D4037]/80 leading-relaxed">
+                        نحرص على اختيار أجود أنواع حبوب القهوة من حول العالم ونحمصها محلياً لنضمن لكم نكهة طازجة في كل كوب. فريقنا من الباريستا المحترفين يهتم بكل التفاصيل لضمان تجربة قهوة لا تُنسى.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <div class="bg-white px-6 py-3 rounded-full shadow">
+                            <span class="font-bold">+30</span> نوع قهوة
+                        </div>
+                        <div class="bg-white px-6 py-3 rounded-full shadow">
+                            <span class="font-bold">100%</span> حبوب عضوية
+                        </div>
+                        <div class="bg-white px-6 py-3 rounded-full shadow">
+                            <span class="font-bold">4</span> سنوات خبرة
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم المنيو -->
+    <section id="menu" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-black mb-4 animate-on-scroll">قائمتنا المميزة</h2>
+                <p class="text-lg text-[#5D4037]/70 max-w-2xl mx-auto animate-on-scroll">اختر من بين تشكيلتنا المميزة من المشروبات والحلويات</p>
+            </div>
+            
+            <!-- تبويبات المنيو -->
+            <div class="flex justify-center mb-12 menu-tabs">
+                <div class="flex flex-wrap gap-2">
+                    <button class="px-4 py-2 rounded-full border border-[#8B5A2B] text-[#8B5A2B] transition-all hover:bg-[#8B5A2B] hover:text-white active" onclick="filterMenu('all')">الكل</button>
+                    <button class="px-4 py-2 rounded-full border border-[#8B5A2B] text-[#8B5A2B] transition-all hover:bg-[#8B5A2B] hover:text-white" onclick="filterMenu('coffee')">القهوة</button>
+                    <button class="px-4 py-2 rounded-full border border-[#8B5A2B] text-[#8B5A2B] transition-all hover:bg-[#8B5A2B] hover:text-white" onclick="filterMenu('tea')">الشاي</button>
+                    <button class="px-4 py-2 rounded-full border border-[#8B5A2B] text-[#8B5A2B] transition-all hover:bg-[#8B5A2B] hover:text-white" onclick="filterMenu('dessert')">الحلويات</button>
+                </div>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- صنف 1 -->
+                <div class="menu-card bg-[#f8f5f2] rounded-2xl overflow-hidden shadow-lg transition-all duration-300 animate-on-scroll" data-category="coffee">
+                    <div class="relative h-64 overflow-hidden coffee-bg">
+                        <div class="absolute top-4 left-4 bg-[#8B5A2B] text-white px-3 py-1 rounded-full text-sm font-bold">الأكثر طلبًا</div>
+                    </div>
+                    <div class="p-6 text-right">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-black">قهوة أروما الخاصة</h3>
+                            <span class="font-bold text-[#8B5A2B] text-lg">28 ر.س</span>
+                        </div>
+                        <p class="text-gray-600 mb-4">خلطتنا السرية من الحبوب الإثيوبية والبرازيلية</p>
+                        <div class="flex justify-between items-center pt-4 border-t border-gray-100">
+                            <span class="text-sm text-gray-500">120 سعرة</span>
+                            <button class="text-[#8B5A2B] font-bold flex items-center">
+                                التفاصيل
+                                <i class="fas fa-arrow-left mr-1 text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- صنف 2 -->
+                <div class="menu-card bg-[#f8f5f2] rounded-2xl overflow-hidden shadow-lg transition-all duration-300 animate-on-scroll" data-category="coffee">
+                    <div class="relative h-64 overflow-hidden coffee-bg">
+                        <div class="absolute top-4 left-4 bg-[#5D4037] text-white px-3 py-1 rounded-full text-sm font-bold">جديد</div>
+                    </div>
+                    <div class="p-6 text-right">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-black">لاتيه الفانيليا</h3>
+                            <span class="font-bold text-[#8B5A2B] text-lg">32 ر.س</span>
+                        </div>
+                        <p class="text-gray-600 mb-4">إسبريسو مع حليب مبخر وشراب الفانيليا الطبيعي</p>
+                        <div class="flex justify-between items-center pt-4 border-t border-gray-100">
+                            <span class="text-sm text-gray-500">180 سعرة</span>
+                            <button class="text-[#8B5A2B] font-bold flex items-center">
+                                التفاصيل
+                                <i class="fas fa-arrow-left mr-1 text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- صنف 3 -->
+                <div class="menu-card bg-[#f8f5f2] rounded-2xl overflow-hidden shadow-lg transition-all duration-300 animate-on-scroll" data-category="dessert">
+                    <div class="relative h-64 overflow-hidden" style="background-image: url('https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'); background-size: cover;">
+                    </div>
+                    <div class="p-6 text-right">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-black">تشيز كيك التوت</h3>
+                            <span class="font-bold text-[#8B5A2B] text-lg">35 ر.س</span>
+                        </div>
+                        <p class="text-gray-600 mb-4">تشيز كيك كريمة مع طبقة توت طازج</p>
+                        <div class="flex justify-between items-center pt-4 border-t border-gray-100">
+                            <span class="text-sm text-gray-500">320 سعرة</span>
+                            <button class="text-[#8B5A2B] font-bold flex items-center">
+                                التفاصيل
+                                <i class="fas fa-arrow-left mr-1 text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-16">
+                <a href="#" class="inline-flex items-center border-2 border-[#5D4037] text-[#5D4037] font-bold py-3 px-8 rounded-full text-lg transition-all duration-300 hover:bg-[#5D4037] hover:text-white animate-on-scroll">
+                    عرض المنيو الكامل
+                    <i class="fas fa-arrow-left mr-2 text-sm"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم آراء العملاء -->
+    <section id="testimonials" class="py-20 bg-[#5D4037] text-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-black mb-4 animate-on-scroll">آراء عملائنا</h2>
+                <p class="text-xl text-white/80 max-w-2xl mx-auto animate-on-scroll">ما يقوله زبائننا عن تجربتهم في أروما</p>
+            </div>
+            
+            <div class="swiper testimonialsSwiper animate-on-scroll">
+                <div class="swiper-wrapper">
+                    <!-- رأي 1 -->
+                    <div class="swiper-slide">
+                        <div class="testimonial-card rounded-2xl p-8">
+                            <div class="flex items-center mb-6">
+                                <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Customer" class="w-16 h-16 rounded-full border-2 border-[#8B5A2B]">
+                                <div class="mr-4 text-right">
+                                    <h4 class="font-bold text-xl">نورة عبدالله</h4>
+                                    <p class="text-[#8B5A2B]">عميلة دائمة</p>
+                                </div>
+                            </div>
+                            <p class="text-lg mb-4">
+                                "قهوة أروما من أفضل ما جربت في الرياض! الجو هادئ والخدمة ممتازة. أزورهم بانتظام للاستمتاع بقهوتهم الفريدة."
+                            </p>
+                            <div class="flex text-[#8B5A2B]">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- رأي 2 -->
+                    <div class="swiper-slide">
+                        <div class="testimonial-card rounded-2xl p-8">
+                            <div class="flex items-center mb-6">
+                                <img src="https://randomuser.me/api/portraits/men/54.jpg" alt="Customer" class="w-16 h-16 rounded-full border-2 border-[#8B5A2B]">
+                                <div class="mr-4 text-right">
+                                    <h4 class="font-bold text-xl">أحمد محمد</h4>
+                                    <p class="text-[#8B5A2B]">زائر لأول مرة</p>
+                                </div>
+                            </div>
+                            <p class="text-lg mb-4">
+                                "اللاتيه كان رائعاً! أجواء المكان ممتازة للعمل والاجتماعات. الموظفون محترفون ويعرفون ما يفعلونه."
+                            </p>
+                            <div class="flex text-[#8B5A2B]">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- رأي 3 -->
+                    <div class="swiper-slide">
+                        <div class="testimonial-card rounded-2xl p-8">
+                            <div class="flex items-center mb-6">
+                                <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Customer" class="w-16 h-16 rounded-full border-2 border-[#8B5A2B]">
+                                <div class="mr-4 text-right">
+                                    <h4 class="font-bold text-xl">سارة الخالد</h4>
+                                    <p class="text-[#8B5A2B]">سائحة</p>
+                                </div>
+                            </div>
+                            <p class="text-lg mb-4">
+                                "كنت في زيارة للرياض وسمعت عن هذا المقهى. التشيز كيك كان لذيذاً والقهوة ممتازة. أنصح الجميع بزيارته."
+                            </p>
+                            <div class="flex text-[#8B5A2B]">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination !relative !mt-8"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم حجز الطاولات -->
+    <section id="reservation" class="py-20 bg-[#f5f1ee]">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto bg-[#5D4037] text-white rounded-2xl overflow-hidden shadow-xl">
+                <div class="md:flex">
+                    <div class="md:w-1/2 p-10">
+                        <h2 class="text-3xl md:text-4xl font-black mb-6">احجز طاولتك الآن</h2>
+                        <p class="text-lg mb-8">
+                            احجز مسبقًا لتضمن مكانك في أجواء أروما المميزة. استمتع بتجربة قهوة فريدة في بيئة هادئة ومريحة.
+                        </p>
+                        <div class="space-y-4">
+                            <div class="flex items-center">
+                                <div class="bg-[#8B5A2B] p-3 rounded-full mr-4">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                                <div>
+                                    <p class="font-bold">اتصل بنا للاستفسار</p>
+                                    <p>+966 50 3333 222</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="bg-[#8B5A2B] p-3 rounded-full mr-4">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div>
+                                    <p class="font-bold">ساعات العمل</p>
+                                    <p>الأحد - الخميس: 7 صباحًا - 12 منتصف الليل</p>
+                                    <p>الجمعة - السبت: 2 مساءً - 1 صباحًا</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="md:w-1/2 bg-white/10 backdrop-blur-sm p-10">
+                        <form class="reservation-form space-y-4">
+                            <div>
+                                <label class="block mb-2">الاسم الكامل</label>
+                                <input type="text" placeholder="أدخل اسمك" class="w-full px-4 py-3 rounded-full">
+                            </div>
+                            <div>
+                                <label class="block mb-2">رقم الجوال</label>
+                                <input type="tel" placeholder="مثال: 05XXXXXXXX" class="w-full px-4 py-3 rounded-full">
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block mb-2">التاريخ</label>
+                                    <input type="date" class="w-full px-4 py-3 rounded-full">
+                                </div>
+                                <div>
+                                    <label class="block mb-2">الوقت</label>
+                                    <select class="w-full px-4 py-3 rounded-full">
+                                        <option>6:00 مساءً</option>
+                                        <option>7:00 مساءً</option>
+                                        <option>8:00 مساءً</option>
+                                        <option>9:00 مساءً</option>
+                                        <option>10:00 مساءً</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block mb-2">عدد الأشخاص</label>
+                                <select class="w-full px-4 py-3 rounded-full">
+                                    <option>1 شخص</option>
+                                    <option>2 أشخاص</option>
+                                    <option>3 أشخاص</option>
+                                    <option>4 أشخاص</option>
+                                    <option>5 أشخاص أو أكثر</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block mb-2">ملاحظات (اختياري)</label>
+                                <textarea placeholder="هل لديك طلبات خاصة؟" class="w-full px-4 py-3 rounded-2xl h-24"></textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-[#8B5A2B] hover:bg-opacity-90 text-white font-bold py-3 px-8 rounded-full text-lg transition-all duration-300">
+                                تأكيد الحجز
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم التواصل -->
+    <section id="contact" class="py-20 bg-[#5D4037] text-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-black mb-4">تواصل معنا</h2>
+                <p class="text-xl text-white/80 max-w-2xl mx-auto">نحن هنا لخدمتك في أي وقت</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-8 text-right">
+                    <div class="flex items-start gap-6">
+                        <div class="bg-[#8B5A2B] p-4 rounded-xl flex-shrink-0">
+                            <i class="fab fa-whatsapp text-2xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-2">واتساب</h3>
+                            <p class="text-lg">+966 50 3333 222</p>
+                            <p class="text-white/70 mt-1">متاح 24/7 للطلبات والاستفسارات</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start gap-6">
+                        <div class="bg-[#8B5A2B] p-4 rounded-xl flex-shrink-0">
+                            <i class="fab fa-instagram text-2xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-2">إنستغرام</h3>
+                            <p class="text-lg">@coffeeoromiffa</p>
+                            <p class="text-white/70 mt-1">تابعنا لأحدث العروض والفعاليات</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start gap-6">
+                        <div class="bg-[#8B5A2B] p-4 rounded-xl flex-shrink-0">
+                            <i class="fas fa-map-marker-alt text-2xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-2">الموقع</h3>
+                            <p class="text-lg">الرياض، حي المروج، شارع الملك فهد</p>
+                            <p class="text-white/70 mt-1">من 7 صباحاً إلى 12 منتصف الليل</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white/10 rounded-2xl overflow-hidden border border-white/20 h-80 md:h-96">
+                    <!-- خريطة الرياض -->
+                    <div class="w-full h-full map-bg flex items-center justify-center">
+                        <div class="bg-[#8B5A2B] text-white px-6 py-3 rounded-full font-bold shadow-lg">
+                            موقعنا على الخريطة
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- الفوتر -->
+    <footer class="bg-[#3E2723] py-12 text-[#D7CCC8]">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <div class="text-2xl font-black gradient-text mb-4">
+                        <span>أروما</span> OROMA
+                    </div>
+                    <p class="mb-4">وجهتك الأولى لأجود أنواع القهوة المختصة في الرياض</p>
+                    <div class="flex space-x-4 space-x-reverse">
+                        <a href="#" class="bg-white/10 hover:bg-[#8B5A2B] w-10 h-10 rounded-full flex items-center justify-center transition">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://instagram.com/coffeeoromiffa" class="bg-white/10 hover:bg-[#8B5A2B] w-10 h-10 rounded-full flex items-center justify-center transition">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="bg-white/10 hover:bg-[#8B5A2B] w-10 h-10 rounded-full flex items-center justify-center transition">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold text-[#D7CCC8] mb-4">روابط سريعة</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-[#8B5A2B] transition">الرئيسية</a></li>
+                        <li><a href="#menu" class="hover:text-[#8B5A2B] transition">المنيو</a></li>
+                        <li><a href="#about" class="hover:text-[#8B5A2B] transition">عنّا</a></li>
+                        <li><a href="#testimonials" class="hover:text-[#8B5A2B] transition">آراء العملاء</a></li>
+                        <li><a href="#contact" class="hover:text-[#8B5A2B] transition">تواصل</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold text-[#D7CCC8] mb-4">ساعات العمل</h3>
+                    <ul class="space-y-2">
+                        <li class="flex justify-between">
+                            <span>الأحد - الخميس</span>
+                            <span class="text-white">7 ص - 12 م</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span>الجمعة - السبت</span>
+                            <span class="text-white">2 م - 1 ص</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold text-[#D7CCC8] mb-4">النشرة البريدية</h3>
+                    <p class="mb-4">اشترك ليصلك كل جديد عن العروض والفعاليات</p>
+                    <form class="flex">
+                        <input type="email" placeholder="بريدك الإلكتروني" class="bg-white/10 border border-white/20 rounded-r-full px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-[#8B5A2B]">
+                        <button type="submit" class="bg-[#8B5A2B] hover:bg-opacity-90 text-white px-4 rounded-l-full -mr-1">
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="pt-8 border-t border-white/10 text-center">
+                <p>&copy; 2023 كافيه أروما. جميع الحقوق محفوظة.</p>
+                <p class="mt-2">تصميم وتطوير بواسطة فريق أروما</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#5D4037',
+                        secondary: '#D7CCC8',
+                        accent: '#8B5A2B',
+                        highlight: '#8B5A2B',
+                        'primary-dark': '#3E2723',
+                    }
+                }
+            }
+        }
+        
+        // شريط التقدم
+        window.onscroll = function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById("progressBar").style.width = scrolled + "%";
+        }
+        
+        // تفعيل تأثيرات الظهور عند التمرير
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.animate-on-scroll');
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                if (elementTop < windowHeight - 100) {
+                    element.classList.add('animated');
+                }
+            });
+        }
+        
+        // تهيئة سلايدر آراء العملاء
+        const testimonialsSwiper = new Swiper('.testimonialsSwiper', {
+            slidesPerView: 1,
+            spaceBetween: 30,
+            loop: true,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            breakpoints: {
+                768: {
+                    slidesPerView: 2,
+                    spaceBetween: 20,
+                },
+                1024: {
+                    slidesPerView: 3,
+                    spaceBetween: 30,
+                }
+            }
+        });
+        
+        // القائمة المتنقلة
+        function toggleMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const header = document.querySelector('header');
+            menu.classList.toggle('open');
+            
+            const button = document.querySelector('.mobile-menu-button');
+            if (menu.classList.contains('open')) {
+                button.innerHTML = '✕';
+                document.body.style.overflow = 'hidden';
+                header.classList.add('header-no-shadow');
+            } else {
+                button.innerHTML = '☰';
+                document.body.style.overflow = 'auto';
+                header.classList.remove('header-no-shadow');
+            }
+        }
+        
+        // تصفية القائمة حسب التصنيف
+        function filterMenu(category) {
+            const items = document.querySelectorAll('.menu-card');
+            items.forEach(item => {
+                if (category === 'all' || item.dataset.category === category) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            
+            // تحديث الأزرار النشطة
+            const buttons = document.querySelectorAll('.menu-tabs button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+        
+        // تهيئة الأحداث
+        window.addEventListener('scroll', animateOnScroll);
+        window.addEventListener('load', animateOnScroll);
+    </script>
+</body>
+</html>
