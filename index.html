@@ -9,71 +9,101 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap');
+        
+        :root {
+            --primary: #5D4037;
+            --secondary: #D7CCC8;
+            --accent: #8B5A2B;
+            --light: #f8f5f2;
+            --dark: #3E2723;
+        }
+        
         body {
             font-family: 'Tajawal', sans-serif;
-            background-color: #f8f5f2;
+            background-color: var(--light);
             scroll-behavior: smooth;
+            overflow-x: hidden;
         }
+        
         .gradient-text {
+            background: linear-gradient(135deg, var(--accent), var(--primary));
             -webkit-background-clip: text;
             background-clip: text;
-            color: #8B5A2B;
+            color: transparent;
         }
+        
+        .menu-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
         .menu-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
         }
+        
         .floating {
             animation: floating 3s ease-in-out infinite;
         }
-        .mobile-menu {
-            transition: all 0.4s ease-in-out;
-            transform: translateX(100%);
-            background-color: #8B5A2B;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(1px);
-            height: 100vh;
-            width: 50%;
-        }
-        .mobile-menu.open {
-            transform: translateX(0);
-        }
-        .section-divider {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 100%;
-            height: 100px;
-            background: linear-gradient(to bottom, #5D4037, transparent);
-        }
+        
         @keyframes floating {
             0% { transform: translateY(0px); }
             50% { transform: translateY(-15px); }
             100% { transform: translateY(0px); }
         }
+        
+        .mobile-menu {
+            transition: all 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+            transform: translateX(100%);
+            background: rgba(139, 90, 43, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            height: 100vh;
+            width: 80%;
+            max-width: 320px;
+        }
+        
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+        
         .coffee-bg {
             background-image: url('https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
             background-size: cover;
             background-position: center;
-            background-blend-mode: multiply;
         }
+        
         .hero-bg {
             background-image: url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
             background-size: cover;
             background-position: center;
+            position: relative;
         }
+        
+        .hero-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: linear-gradient(135deg, rgba(93, 64, 55, 0.8) 0%, rgba(93, 64, 55, 0.4) 100%);
+        }
+        
         .map-bg {
-            background-image: url('https://maps.googleapis.com/maps/api/staticmap?center=24.7136,46.6753&zoom=15&size=800x400&maptype=roadmap&markers=color:red%7C24.7136,46.6753&key=YOUR_API_KEY');
+            background-image: url('https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');
             background-size: cover;
             background-position: center;
         }
-        .header-no-shadow {
-            box-shadow: none !important;
+        
+        .header-shadow {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
+        
         .menu-item {
             position: relative;
             overflow: hidden;
         }
+        
         .menu-item::after {
             content: '';
             position: absolute;
@@ -81,50 +111,67 @@
             right: 0;
             width: 0;
             height: 2px;
-            background: #f8f5f2;
+            background: var(--accent);
             transition: width 0.3s ease;
         }
+        
         .menu-item:hover::after {
             width: 100%;
         }
+        
         .progress-container {
             width: 100%;
             height: 4px;
-            background: #D7CCC8;
+            background: var(--secondary);
             position: fixed;
             top: 0;
             z-index: 100;
         }
+        
         .progress-bar {
             height: 4px;
-            background: #8B5A2B;
+            background: var(--accent);
             width: 0%;
+            transition: width 0.3s ease;
         }
+        
         .animate-on-scroll {
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(30px);
             transition: all 0.8s ease;
         }
+        
         .animate-on-scroll.animated {
             opacity: 1;
             transform: translateY(0);
         }
+        
         .menu-tabs button.active {
-            background-color: #8B5A2B;
+            background-color: var(--accent);
             color: white;
+            transform: scale(1.05);
         }
+        
         .gallery-item {
             position: relative;
             overflow: hidden;
             border-radius: 12px;
             cursor: pointer;
+            transition: all 0.4s ease;
         }
+        
         .gallery-item img {
             transition: transform 0.5s ease;
         }
-        .gallery-item:hover img {
-            transform: scale(1.05);
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
         }
+        
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        
         .gallery-overlay {
             position: absolute;
             top: 0;
@@ -138,62 +185,212 @@
             opacity: 0;
             transition: opacity 0.3s ease;
         }
+        
         .gallery-item:hover .gallery-overlay {
             opacity: 1;
         }
+        
         .reservation-form input, 
         .reservation-form select, 
         .reservation-form textarea {
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: white;
+            transition: all 0.3s ease;
         }
+        
         .reservation-form input:focus, 
         .reservation-form select:focus, 
         .reservation-form textarea:focus {
             outline: none;
-            border-color: #8B5A2B;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(139, 90, 43, 0.2);
         }
+        
         .reservation-form input::placeholder {
             color: rgba(255, 255, 255, 0.7);
         }
+        
         .testimonial-card {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
         }
+        
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
         .swiper-pagination-bullet {
             background: rgba(255, 255, 255, 0.5);
             width: 10px;
             height: 10px;
+            opacity: 1;
         }
+        
         .swiper-pagination-bullet-active {
-            background: #8B5A2B;
+            background: var(--accent);
+            transform: scale(1.2);
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--accent);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 99;
+            box-shadow: 0 4px 15px rgba(139, 90, 43, 0.3);
+        }
+        
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-to-top:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(139, 90, 43, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(139, 90, 43, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(139, 90, 43, 0); }
+        }
+        
+        .section-divider {
+            height: 100px;
+            background: linear-gradient(to bottom, var(--primary), transparent);
+        }
+        
+        .floating-coffee-beans {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .coffee-bean {
+            position: absolute;
+            width: 30px;
+            height: 15px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 15"><path d="M15,2 C20,2 25,5 25,10 C25,15 20,13 15,13 C10,13 5,15 5,10 C5,5 10,2 15,2 Z" fill="%238B5A2B" opacity="0.3"/></svg>');
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); }
+            100% { transform: translateY(-100px) rotate(360deg); }
+        }
+        
+        .social-icon {
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            transform: translateY(-3px) scale(1.1);
+        }
+        
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        
+        .loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .coffee-cup {
+            width: 80px;
+            height: 80px;
+            border: 8px solid var(--accent);
+            border-radius: 0 0 40px 40px;
+            position: relative;
+            animation: fill 2s infinite;
+        }
+        
+        .coffee-cup:before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 30px;
+            border: 8px solid var(--accent);
+            border-left: none;
+            border-radius: 0 20px 20px 0;
+            right: -28px;
+            top: 10px;
+        }
+        
+        @keyframes fill {
+            0% { box-shadow: 0 0 0 0 inset var(--accent); }
+            50% { box-shadow: 0 -60px 0 0 inset var(--accent); }
+            100% { box-shadow: 0 0 0 0 inset var(--accent); }
         }
     </style>
 </head>
 <body class="text-primary antialiased">
+    <!-- شاشة التحميل -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="coffee-cup"></div>
+    </div>
+
     <!-- شريط التقدم -->
     <div class="progress-container">
         <div class="progress-bar" id="progressBar"></div>
     </div>
 
+    <!-- زر العودة للأعلى -->
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+
     <!-- شريط التنقل -->
-    <header class="bg-white/90 backdrop-blur-md sticky top-0 z-50 shadow-sm transition-all duration-300">
+    <header class="bg-white/95 backdrop-blur-md sticky top-0 z-50 transition-all duration-300" id="header">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <div class="text-2xl md:text-3xl font-black gradient-text">
                 <span>أروما</span> OROMA
             </div>
             <nav class="hidden md:block">
                 <ul class="flex space-x-8 space-x-reverse">
-                    <li class="menu-item"><a href="#menu" class="hover:text-[#8B5A2B] transition-all duration-300 font-medium px-3 py-2 rounded-lg">المنيو</a></li>
-                    <li class="menu-item"><a href="#gallery" class="hover:text-[#8B5A2B] transition-all duration-300 font-medium px-3 py-2 rounded-lg">معرض الصور</a></li>
-                    <li class="menu-item"><a href="#about" class="hover:text-[#8B5A2B] transition-all duration-300 font-medium px-3 py-2 rounded-lg">عنّا</a></li>
-                    <li class="menu-item"><a href="#testimonials" class="hover:text-[#8B5A2B] transition-all duration-300 font-medium px-3 py-2 rounded-lg">آراء العملاء</a></li>
-                    <li class="menu-item"><a href="#contact" class="hover:text-[#8B5A2B] transition-all duration-300 font-medium px-3 py-2 rounded-lg">تواصل</a></li>
+                    <li class="menu-item"><a href="#menu" class="hover:text-accent transition-all duration-300 font-medium px-3 py-2 rounded-lg">المنيو</a></li>
+                    <li class="menu-item"><a href="#gallery" class="hover:text-accent transition-all duration-300 font-medium px-3 py-2 rounded-lg">معرض الصور</a></li>
+                    <li class="menu-item"><a href="#about" class="hover:text-accent transition-all duration-300 font-medium px-3 py-2 rounded-lg">عنّا</a></li>
+                    <li class="menu-item"><a href="#testimonials" class="hover:text-accent transition-all duration-300 font-medium px-3 py-2 rounded-lg">آراء العملاء</a></li>
+                    <li class="menu-item"><a href="#contact" class="hover:text-accent transition-all duration-300 font-medium px-3 py-2 rounded-lg">تواصل</a></li>
                 </ul>
             </nav>
-            <button class="mobile-menu-button md:hidden text-2xl" onclick="toggleMenu()">☰</button>
+            <button class="mobile-menu-button md:hidden text-2xl z-50 relative" id="mobileMenuButton">☰</button>
         </div>
         
         <!-- القائمة المتنقلة -->
@@ -209,13 +406,13 @@
             
             <div class="absolute bottom-10 right-6 left-6">
                 <div class="flex space-x-6 space-x-reverse justify-center">
-                    <a href="tel:+966503333222" class="bg-[#8B5A2B] text-white p-3 rounded-full">
+                    <a href="tel:+966503333222" class="bg-white/20 text-white p-3 rounded-full social-icon">
                         <i class="fa fa-phone"></i>
                     </a>
-                    <a href="https://instagram.com/coffeeoromiffa" class="bg-[#8B5A2B] text-white p-3 rounded-full">
+                    <a href="https://instagram.com/coffeeoromiffa" class="bg-white/20 text-white p-3 rounded-full social-icon">
                         <i class="fab fa-instagram"></i>
                     </a>
-                    <a href="https://goo.gl/maps/example" class="bg-[#8B5A2B] text-white p-3 rounded-full">
+                    <a href="https://goo.gl/maps/example" class="bg-white/20 text-white p-3 rounded-full social-icon">
                         <i class="fa fa-map-marker-alt"></i>
                     </a>
                 </div>
@@ -224,21 +421,33 @@
     </header>
 
     <!-- قسم الهيرو الرئيسي -->
-    <section class="relative overflow-hidden hero-bg">
-        <div class="absolute inset-0 bg-gradient-to-r from-[#5D4037]/80 to-[#5D4037]/40"></div>
+    <section class="relative overflow-hidden hero-bg min-h-screen flex items-center">
+        <div class="floating-coffee-beans">
+            <!-- حبوب قهوة عائمة -->
+            <div class="coffee-bean" style="left: 10%; animation-delay: 0s;"></div>
+            <div class="coffee-bean" style="left: 20%; animation-delay: 1s;"></div>
+            <div class="coffee-bean" style="left: 30%; animation-delay: 2s;"></div>
+            <div class="coffee-bean" style="left: 40%; animation-delay: 3s;"></div>
+            <div class="coffee-bean" style="left: 50%; animation-delay: 4s;"></div>
+            <div class="coffee-bean" style="left: 60%; animation-delay: 5s;"></div>
+            <div class="coffee-bean" style="left: 70%; animation-delay: 6s;"></div>
+            <div class="coffee-bean" style="left: 80%; animation-delay: 7s;"></div>
+            <div class="coffee-bean" style="left: 90%; animation-delay: 8s;"></div>
+        </div>
+        
         <div class="container mx-auto px-4 py-32 md:py-48 relative z-10">
             <div class="max-w-2xl text-right">
                 <h1 class="text-4xl md:text-6xl font-black text-white mb-6 leading-tight animate-on-scroll">
                     <span class="gradient-text">تجربة</span> قهوة لا تُنسى
                 </h1>
-                <p class="text-xl md:text-2xl text-[#D7CCC8] mb-10 max-w-xl animate-on-scroll">
+                <p class="text-xl md:text-2xl text-secondary mb-10 max-w-xl animate-on-scroll">
                     اكتشف فن صناعة القهوة المختصة في أجواء مميزة تتناغم مع رائحة القهوة الطازجة
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 animate-on-scroll">
-                    <a href="#menu" class="bg-[#8B5A2B] hover:bg-opacity-90 text-white font-bold py-3 px-8 rounded-full text-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                    <a href="#menu" class="bg-accent hover:bg-opacity-90 text-white font-bold py-3 px-8 rounded-full text-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 pulse">
                         تصفح المنيو
                     </a>
-                    <a href="#reservation" class="border-2 border-white/30 hover:border-[#8B5A2B] text-white font-bold py-3 px-8 rounded-full text-lg transition-all duration-300 hover:bg-white/10">
+                    <a href="#reservation" class="border-2 border-white/30 hover:border-accent text-white font-bold py-3 px-8 rounded-full text-lg transition-all duration-300 hover:bg-white/10">
                         احجز طاولتك
                     </a>
                 </div>
@@ -251,6 +460,13 @@
                 <img src="https://cdn-icons-png.flaticon.com/512/924/924514.png" class="w-20" alt="Coffee cup">
             </div>
         </div>
+        
+        <!-- زر التمرير لأسفل -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <a href="#about" class="text-white text-2xl">
+                <i class="fas fa-chevron-down"></i>
+            </a>
+        </div>
     </section>
 
     <!-- قسم معرض الصور -->
@@ -258,7 +474,7 @@
         <div class="container mx-auto px-4">
             <div class="text-center mb-16">
                 <h2 class="text-3xl md:text-4xl font-black mb-4 animate-on-scroll">معرض أروما كافيه</h2>
-                <p class="text-lg text-[#5D4037]/70 max-w-2xl mx-auto animate-on-scroll">اكتشف أجواءنا المميزة وتجارب عملائنا الفريدة</p>
+                <p class="text-lg text-primary/70 max-w-2xl mx-auto animate-on-scroll">اكتشف أجواءنا المميزة وتجارب عملائنا الفريدة</p>
             </div>
             
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -291,15 +507,15 @@
     </section>
 
     <!-- قسم عنّا -->
-    <section id="about" class="relative py-20 bg-[#f5f1ee]">
+    <section id="about" class="relative py-20 bg-light">
         <div class="container mx-auto px-4 py-12">
             <div class="flex flex-col md:flex-row items-center gap-8">
                 <div class="md:w-1/2 relative animate-on-scroll">
                     <div class="relative rounded-2xl overflow-hidden shadow-2xl">
                         <div class="coffee-bg w-full h-80 md:h-96"></div>
-                        <div class="absolute inset-0 bg-gradient-to-t from-[#5D4037]/70 via-[#5D4037]/30 to-transparent"></div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-primary/70 via-primary/30 to-transparent"></div>
                     </div>
-                    <div class="absolute -bottom-4 -right-4 bg-[#8B5A2B] text-white px-6 py-3 rounded-lg shadow-lg">
+                    <div class="absolute -bottom-4 -right-4 bg-accent text-white px-6 py-3 rounded-lg shadow-lg">
                         <span class="block text-xl font-black">2020</span>
                         <span class="text-sm">سنة التأسيس</span>
                     </div>
@@ -307,22 +523,22 @@
                 <div class="md:w-1/2 text-right mt-8 md:mt-0 animate-on-scroll">
                     <h2 class="text-3xl md:text-4xl font-black mb-6 relative inline-block">
                         <span class="gradient-text">قصتنا</span>
-                        <span class="absolute bottom-0 right-0 w-1/2 h-1 bg-[#8B5A2B] rounded-full"></span>
+                        <span class="absolute bottom-0 right-0 w-1/2 h-1 bg-accent rounded-full"></span>
                     </h2>
                     <p class="text-lg mb-6 leading-relaxed">
                         أروما كافيه هو وجهة عشاق القهوة المختصة في الرياض، حيث نقدم تجربة فريدة تجمع بين أصالة القهوة وحداثة التقديم.
                     </p>
-                    <p class="text-lg mb-8 text-[#5D4037]/80 leading-relaxed">
+                    <p class="text-lg mb-8 text-primary/80 leading-relaxed">
                         نحرص على اختيار أجود أنواع حبوب القهوة من حول العالم ونحمصها محلياً لنضمن لكم نكهة طازجة في كل كوب. فريقنا من الباريستا المحترفين يهتم بكل التفاصيل لضمان تجربة قهوة لا تُنسى.
                     </p>
                     <div class="flex flex-wrap gap-4">
-                        <div class="bg-white px-6 py-3 rounded-full shadow">
+                        <div class="bg-white px-6 py-3 rounded-full shadow transition-all hover:shadow-lg">
                             <span class="font-bold">+30</span> نوع قهوة
                         </div>
-                        <div class="bg-white px-6 py-3 rounded-full shadow">
+                        <div class="bg-white px-6 py-3 rounded-full shadow transition-all hover:shadow-lg">
                             <span class="font-bold">100%</span> حبوب عضوية
                         </div>
-                        <div class="bg-white px-6 py-3 rounded-full shadow">
+                        <div class="bg-white px-6 py-3 rounded-full shadow transition-all hover:shadow-lg">
                             <span class="font-bold">4</span> سنوات خبرة
                         </div>
                     </div>
@@ -336,34 +552,34 @@
         <div class="container mx-auto px-4">
             <div class="text-center mb-16">
                 <h2 class="text-3xl md:text-4xl font-black mb-4 animate-on-scroll">قائمتنا المميزة</h2>
-                <p class="text-lg text-[#5D4037]/70 max-w-2xl mx-auto animate-on-scroll">اختر من بين تشكيلتنا المميزة من المشروبات والحلويات</p>
+                <p class="text-lg text-primary/70 max-w-2xl mx-auto animate-on-scroll">اختر من بين تشكيلتنا المميزة من المشروبات والحلويات</p>
             </div>
             
             <!-- تبويبات المنيو -->
             <div class="flex justify-center mb-12 menu-tabs">
                 <div class="flex flex-wrap gap-2">
-                    <button class="px-4 py-2 rounded-full border border-[#8B5A2B] text-[#8B5A2B] transition-all hover:bg-[#8B5A2B] hover:text-white active" onclick="filterMenu('all')">الكل</button>
-                    <button class="px-4 py-2 rounded-full border border-[#8B5A2B] text-[#8B5A2B] transition-all hover:bg-[#8B5A2B] hover:text-white" onclick="filterMenu('coffee')">القهوة</button>
-                    <button class="px-4 py-2 rounded-full border border-[#8B5A2B] text-[#8B5A2B] transition-all hover:bg-[#8B5A2B] hover:text-white" onclick="filterMenu('tea')">الشاي</button>
-                    <button class="px-4 py-2 rounded-full border border-[#8B5A2B] text-[#8B5A2B] transition-all hover:bg-[#8B5A2B] hover:text-white" onclick="filterMenu('dessert')">الحلويات</button>
+                    <button class="px-4 py-2 rounded-full border border-accent text-accent transition-all hover:bg-accent hover:text-white active" onclick="filterMenu('all')">الكل</button>
+                    <button class="px-4 py-2 rounded-full border border-accent text-accent transition-all hover:bg-accent hover:text-white" onclick="filterMenu('coffee')">القهوة</button>
+                    <button class="px-4 py-2 rounded-full border border-accent text-accent transition-all hover:bg-accent hover:text-white" onclick="filterMenu('tea')">الشاي</button>
+                    <button class="px-4 py-2 rounded-full border border-accent text-accent transition-all hover:bg-accent hover:text-white" onclick="filterMenu('dessert')">الحلويات</button>
                 </div>
             </div>
             
             <div class="grid md:grid-cols-3 gap-8">
                 <!-- صنف 1 -->
-                <div class="menu-card bg-[#f8f5f2] rounded-2xl overflow-hidden shadow-lg transition-all duration-300 animate-on-scroll" data-category="coffee">
+                <div class="menu-card bg-light rounded-2xl overflow-hidden shadow-lg animate-on-scroll" data-category="coffee">
                     <div class="relative h-64 overflow-hidden coffee-bg">
-                        <div class="absolute top-4 left-4 bg-[#8B5A2B] text-white px-3 py-1 rounded-full text-sm font-bold">الأكثر طلبًا</div>
+                        <div class="absolute top-4 left-4 bg-accent text-white px-3 py-1 rounded-full text-sm font-bold">الأكثر طلبًا</div>
                     </div>
                     <div class="p-6 text-right">
                         <div class="flex justify-between items-start mb-2">
                             <h3 class="text-xl font-black">قهوة أروما الخاصة</h3>
-                            <span class="font-bold text-[#8B5A2B] text-lg">28 ر.س</span>
+                            <span class="font-bold text-accent text-lg">28 ر.س</span>
                         </div>
                         <p class="text-gray-600 mb-4">خلطتنا السرية من الحبوب الإثيوبية والبرازيلية</p>
                         <div class="flex justify-between items-center pt-4 border-t border-gray-100">
                             <span class="text-sm text-gray-500">120 سعرة</span>
-                            <button class="text-[#8B5A2B] font-bold flex items-center">
+                            <button class="text-accent font-bold flex items-center">
                                 التفاصيل
                                 <i class="fas fa-arrow-left mr-1 text-sm"></i>
                             </button>
@@ -372,19 +588,19 @@
                 </div>
                 
                 <!-- صنف 2 -->
-                <div class="menu-card bg-[#f8f5f2] rounded-2xl overflow-hidden shadow-lg transition-all duration-300 animate-on-scroll" data-category="coffee">
+                <div class="menu-card bg-light rounded-2xl overflow-hidden shadow-lg animate-on-scroll" data-category="coffee">
                     <div class="relative h-64 overflow-hidden coffee-bg">
-                        <div class="absolute top-4 left-4 bg-[#5D4037] text-white px-3 py-1 rounded-full text-sm font-bold">جديد</div>
+                        <div class="absolute top-4 left-4 bg-primary text-white px-3 py-1 rounded-full text-sm font-bold">جديد</div>
                     </div>
                     <div class="p-6 text-right">
                         <div class="flex justify-between items-start mb-2">
                             <h3 class="text-xl font-black">لاتيه الفانيليا</h3>
-                            <span class="font-bold text-[#8B5A2B] text-lg">32 ر.س</span>
+                            <span class="font-bold text-accent text-lg">32 ر.س</span>
                         </div>
                         <p class="text-gray-600 mb-4">إسبريسو مع حليب مبخر وشراب الفانيليا الطبيعي</p>
                         <div class="flex justify-between items-center pt-4 border-t border-gray-100">
                             <span class="text-sm text-gray-500">180 سعرة</span>
-                            <button class="text-[#8B5A2B] font-bold flex items-center">
+                            <button class="text-accent font-bold flex items-center">
                                 التفاصيل
                                 <i class="fas fa-arrow-left mr-1 text-sm"></i>
                             </button>
@@ -393,18 +609,18 @@
                 </div>
                 
                 <!-- صنف 3 -->
-                <div class="menu-card bg-[#f8f5f2] rounded-2xl overflow-hidden shadow-lg transition-all duration-300 animate-on-scroll" data-category="dessert">
+                <div class="menu-card bg-light rounded-2xl overflow-hidden shadow-lg animate-on-scroll" data-category="dessert">
                     <div class="relative h-64 overflow-hidden" style="background-image: url('https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'); background-size: cover;">
                     </div>
                     <div class="p-6 text-right">
                         <div class="flex justify-between items-start mb-2">
                             <h3 class="text-xl font-black">تشيز كيك التوت</h3>
-                            <span class="font-bold text-[#8B5A2B] text-lg">35 ر.س</span>
+                            <span class="font-bold text-accent text-lg">35 ر.س</span>
                         </div>
                         <p class="text-gray-600 mb-4">تشيز كيك كريمة مع طبقة توت طازج</p>
                         <div class="flex justify-between items-center pt-4 border-t border-gray-100">
                             <span class="text-sm text-gray-500">320 سعرة</span>
-                            <button class="text-[#8B5A2B] font-bold flex items-center">
+                            <button class="text-accent font-bold flex items-center">
                                 التفاصيل
                                 <i class="fas fa-arrow-left mr-1 text-sm"></i>
                             </button>
@@ -414,7 +630,7 @@
             </div>
             
             <div class="text-center mt-16">
-                <a href="#" class="inline-flex items-center border-2 border-[#5D4037] text-[#5D4037] font-bold py-3 px-8 rounded-full text-lg transition-all duration-300 hover:bg-[#5D4037] hover:text-white animate-on-scroll">
+                <a href="#" class="inline-flex items-center border-2 border-primary text-primary font-bold py-3 px-8 rounded-full text-lg transition-all duration-300 hover:bg-primary hover:text-white animate-on-scroll">
                     عرض المنيو الكامل
                     <i class="fas fa-arrow-left mr-2 text-sm"></i>
                 </a>
@@ -423,7 +639,7 @@
     </section>
 
     <!-- قسم آراء العملاء -->
-    <section id="testimonials" class="py-20 bg-[#5D4037] text-white">
+    <section id="testimonials" class="py-20 bg-primary text-white">
         <div class="container mx-auto px-4">
             <div class="text-center mb-16">
                 <h2 class="text-3xl md:text-4xl font-black mb-4 animate-on-scroll">آراء عملائنا</h2>
@@ -436,16 +652,16 @@
                     <div class="swiper-slide">
                         <div class="testimonial-card rounded-2xl p-8">
                             <div class="flex items-center mb-6">
-                                <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Customer" class="w-16 h-16 rounded-full border-2 border-[#8B5A2B]">
+                                <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Customer" class="w-16 h-16 rounded-full border-2 border-accent">
                                 <div class="mr-4 text-right">
                                     <h4 class="font-bold text-xl">نورة عبدالله</h4>
-                                    <p class="text-[#8B5A2B]">عميلة دائمة</p>
+                                    <p class="text-accent">عميلة دائمة</p>
                                 </div>
                             </div>
                             <p class="text-lg mb-4">
                                 "قهوة أروما من أفضل ما جربت في الرياض! الجو هادئ والخدمة ممتازة. أزورهم بانتظام للاستمتاع بقهوتهم الفريدة."
                             </p>
-                            <div class="flex text-[#8B5A2B]">
+                            <div class="flex text-accent">
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
@@ -459,16 +675,16 @@
                     <div class="swiper-slide">
                         <div class="testimonial-card rounded-2xl p-8">
                             <div class="flex items-center mb-6">
-                                <img src="https://randomuser.me/api/portraits/men/54.jpg" alt="Customer" class="w-16 h-16 rounded-full border-2 border-[#8B5A2B]">
+                                <img src="https://randomuser.me/api/portraits/men/54.jpg" alt="Customer" class="w-16 h-16 rounded-full border-2 border-accent">
                                 <div class="mr-4 text-right">
                                     <h4 class="font-bold text-xl">أحمد محمد</h4>
-                                    <p class="text-[#8B5A2B]">زائر لأول مرة</p>
+                                    <p class="text-accent">زائر لأول مرة</p>
                                 </div>
                             </div>
                             <p class="text-lg mb-4">
                                 "اللاتيه كان رائعاً! أجواء المكان ممتازة للعمل والاجتماعات. الموظفون محترفون ويعرفون ما يفعلونه."
                             </p>
-                            <div class="flex text-[#8B5A2B]">
+                            <div class="flex text-accent">
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
@@ -482,16 +698,16 @@
                     <div class="swiper-slide">
                         <div class="testimonial-card rounded-2xl p-8">
                             <div class="flex items-center mb-6">
-                                <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Customer" class="w-16 h-16 rounded-full border-2 border-[#8B5A2B]">
+                                <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Customer" class="w-16 h-16 rounded-full border-2 border-accent">
                                 <div class="mr-4 text-right">
                                     <h4 class="font-bold text-xl">سارة الخالد</h4>
-                                    <p class="text-[#8B5A2B]">سائحة</p>
+                                    <p class="text-accent">سائحة</p>
                                 </div>
                             </div>
                             <p class="text-lg mb-4">
                                 "كنت في زيارة للرياض وسمعت عن هذا المقهى. التشيز كيك كان لذيذاً والقهوة ممتازة. أنصح الجميع بزيارته."
                             </p>
-                            <div class="flex text-[#8B5A2B]">
+                            <div class="flex text-accent">
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
@@ -507,9 +723,9 @@
     </section>
 
     <!-- قسم حجز الطاولات -->
-    <section id="reservation" class="py-20 bg-[#f5f1ee]">
+    <section id="reservation" class="py-20 bg-light">
         <div class="container mx-auto px-4">
-            <div class="max-w-4xl mx-auto bg-[#5D4037] text-white rounded-2xl overflow-hidden shadow-xl">
+            <div class="max-w-4xl mx-auto bg-primary text-white rounded-2xl overflow-hidden shadow-xl">
                 <div class="md:flex">
                     <div class="md:w-1/2 p-10">
                         <h2 class="text-3xl md:text-4xl font-black mb-6">احجز طاولتك الآن</h2>
@@ -518,7 +734,7 @@
                         </p>
                         <div class="space-y-4">
                             <div class="flex items-center">
-                                <div class="bg-[#8B5A2B] p-3 rounded-full mr-4">
+                                <div class="bg-accent p-3 rounded-full mr-4">
                                     <i class="fas fa-phone"></i>
                                 </div>
                                 <div>
@@ -527,7 +743,7 @@
                                 </div>
                             </div>
                             <div class="flex items-center">
-                                <div class="bg-[#8B5A2B] p-3 rounded-full mr-4">
+                                <div class="bg-accent p-3 rounded-full mr-4">
                                     <i class="fas fa-clock"></i>
                                 </div>
                                 <div>
@@ -539,23 +755,23 @@
                         </div>
                     </div>
                     <div class="md:w-1/2 bg-white/10 backdrop-blur-sm p-10">
-                        <form class="reservation-form space-y-4">
+                        <form class="reservation-form space-y-4" id="reservationForm">
                             <div>
                                 <label class="block mb-2">الاسم الكامل</label>
-                                <input type="text" placeholder="أدخل اسمك" class="w-full px-4 py-3 rounded-full">
+                                <input type="text" placeholder="أدخل اسمك" class="w-full px-4 py-3 rounded-full" required>
                             </div>
                             <div>
                                 <label class="block mb-2">رقم الجوال</label>
-                                <input type="tel" placeholder="مثال: 05XXXXXXXX" class="w-full px-4 py-3 rounded-full">
+                                <input type="tel" placeholder="مثال: 05XXXXXXXX" class="w-full px-4 py-3 rounded-full" required>
                             </div>
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
                                     <label class="block mb-2">التاريخ</label>
-                                    <input type="date" class="w-full px-4 py-3 rounded-full">
+                                    <input type="date" class="w-full px-4 py-3 rounded-full" required>
                                 </div>
                                 <div>
                                     <label class="block mb-2">الوقت</label>
-                                    <select class="w-full px-4 py-3 rounded-full">
+                                    <select class="w-full px-4 py-3 rounded-full" required>
                                         <option>6:00 مساءً</option>
                                         <option>7:00 مساءً</option>
                                         <option>8:00 مساءً</option>
@@ -566,7 +782,7 @@
                             </div>
                             <div>
                                 <label class="block mb-2">عدد الأشخاص</label>
-                                <select class="w-full px-4 py-3 rounded-full">
+                                <select class="w-full px-4 py-3 rounded-full" required>
                                     <option>1 شخص</option>
                                     <option>2 أشخاص</option>
                                     <option>3 أشخاص</option>
@@ -578,7 +794,7 @@
                                 <label class="block mb-2">ملاحظات (اختياري)</label>
                                 <textarea placeholder="هل لديك طلبات خاصة؟" class="w-full px-4 py-3 rounded-2xl h-24"></textarea>
                             </div>
-                            <button type="submit" class="w-full bg-[#8B5A2B] hover:bg-opacity-90 text-white font-bold py-3 px-8 rounded-full text-lg transition-all duration-300">
+                            <button type="submit" class="w-full bg-accent hover:bg-opacity-90 text-white font-bold py-3 px-8 rounded-full text-lg transition-all duration-300">
                                 تأكيد الحجز
                             </button>
                         </form>
@@ -589,7 +805,7 @@
     </section>
 
     <!-- قسم التواصل -->
-    <section id="contact" class="py-20 bg-[#5D4037] text-white">
+    <section id="contact" class="py-20 bg-primary text-white">
         <div class="container mx-auto px-4">
             <div class="text-center mb-16">
                 <h2 class="text-3xl md:text-4xl font-black mb-4">تواصل معنا</h2>
@@ -599,7 +815,7 @@
             <div class="grid md:grid-cols-2 gap-12 items-center">
                 <div class="space-y-8 text-right">
                     <div class="flex items-start gap-6">
-                        <div class="bg-[#8B5A2B] p-4 rounded-xl flex-shrink-0">
+                        <div class="bg-accent p-4 rounded-xl flex-shrink-0">
                             <i class="fab fa-whatsapp text-2xl"></i>
                         </div>
                         <div>
@@ -610,7 +826,7 @@
                     </div>
                     
                     <div class="flex items-start gap-6">
-                        <div class="bg-[#8B5A2B] p-4 rounded-xl flex-shrink-0">
+                        <div class="bg-accent p-4 rounded-xl flex-shrink-0">
                             <i class="fab fa-instagram text-2xl"></i>
                         </div>
                         <div>
@@ -621,7 +837,7 @@
                     </div>
                     
                     <div class="flex items-start gap-6">
-                        <div class="bg-[#8B5A2B] p-4 rounded-xl flex-shrink-0">
+                        <div class="bg-accent p-4 rounded-xl flex-shrink-0">
                             <i class="fas fa-map-marker-alt text-2xl"></i>
                         </div>
                         <div>
@@ -635,7 +851,7 @@
                 <div class="bg-white/10 rounded-2xl overflow-hidden border border-white/20 h-80 md:h-96">
                     <!-- خريطة الرياض -->
                     <div class="w-full h-full map-bg flex items-center justify-center">
-                        <div class="bg-[#8B5A2B] text-white px-6 py-3 rounded-full font-bold shadow-lg">
+                        <div class="bg-accent text-white px-6 py-3 rounded-full font-bold shadow-lg">
                             موقعنا على الخريطة
                         </div>
                     </div>
@@ -645,7 +861,7 @@
     </section>
 
     <!-- الفوتر -->
-    <footer class="bg-[#3E2723] py-12 text-[#D7CCC8]">
+    <footer class="bg-dark py-12 text-secondary">
         <div class="container mx-auto px-4">
             <div class="grid md:grid-cols-4 gap-8 mb-12">
                 <div>
@@ -654,31 +870,31 @@
                     </div>
                     <p class="mb-4">وجهتك الأولى لأجود أنواع القهوة المختصة في الرياض</p>
                     <div class="flex space-x-4 space-x-reverse">
-                        <a href="#" class="bg-white/10 hover:bg-[#8B5A2B] w-10 h-10 rounded-full flex items-center justify-center transition">
+                        <a href="#" class="bg-white/10 hover:bg-accent w-10 h-10 rounded-full flex items-center justify-center transition social-icon">
                             <i class="fab fa-facebook-f"></i>
                         </a>
-                        <a href="https://instagram.com/coffeeoromiffa" class="bg-white/10 hover:bg-[#8B5A2B] w-10 h-10 rounded-full flex items-center justify-center transition">
+                        <a href="https://instagram.com/coffeeoromiffa" class="bg-white/10 hover:bg-accent w-10 h-10 rounded-full flex items-center justify-center transition social-icon">
                             <i class="fab fa-instagram"></i>
                         </a>
-                        <a href="#" class="bg-white/10 hover:bg-[#8B5A2B] w-10 h-10 rounded-full flex items-center justify-center transition">
+                        <a href="#" class="bg-white/10 hover:bg-accent w-10 h-10 rounded-full flex items-center justify-center transition social-icon">
                             <i class="fab fa-twitter"></i>
                         </a>
                     </div>
                 </div>
                 
                 <div>
-                    <h3 class="text-lg font-bold text-[#D7CCC8] mb-4">روابط سريعة</h3>
+                    <h3 class="text-lg font-bold text-secondary mb-4">روابط سريعة</h3>
                     <ul class="space-y-2">
-                        <li><a href="#" class="hover:text-[#8B5A2B] transition">الرئيسية</a></li>
-                        <li><a href="#menu" class="hover:text-[#8B5A2B] transition">المنيو</a></li>
-                        <li><a href="#about" class="hover:text-[#8B5A2B] transition">عنّا</a></li>
-                        <li><a href="#testimonials" class="hover:text-[#8B5A2B] transition">آراء العملاء</a></li>
-                        <li><a href="#contact" class="hover:text-[#8B5A2B] transition">تواصل</a></li>
+                        <li><a href="#" class="hover:text-accent transition">الرئيسية</a></li>
+                        <li><a href="#menu" class="hover:text-accent transition">المنيو</a></li>
+                        <li><a href="#about" class="hover:text-accent transition">عنّا</a></li>
+                        <li><a href="#testimonials" class="hover:text-accent transition">آراء العملاء</a></li>
+                        <li><a href="#contact" class="hover:text-accent transition">تواصل</a></li>
                     </ul>
                 </div>
                 
                 <div>
-                    <h3 class="text-lg font-bold text-[#D7CCC8] mb-4">ساعات العمل</h3>
+                    <h3 class="text-lg font-bold text-secondary mb-4">ساعات العمل</h3>
                     <ul class="space-y-2">
                         <li class="flex justify-between">
                             <span>الأحد - الخميس</span>
@@ -692,11 +908,11 @@
                 </div>
                 
                 <div>
-                    <h3 class="text-lg font-bold text-[#D7CCC8] mb-4">النشرة البريدية</h3>
+                    <h3 class="text-lg font-bold text-secondary mb-4">النشرة البريدية</h3>
                     <p class="mb-4">اشترك ليصلك كل جديد عن العروض والفعاليات</p>
-                    <form class="flex">
-                        <input type="email" placeholder="بريدك الإلكتروني" class="bg-white/10 border border-white/20 rounded-r-full px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-[#8B5A2B]">
-                        <button type="submit" class="bg-[#8B5A2B] hover:bg-opacity-90 text-white px-4 rounded-l-full -mr-1">
+                    <form class="flex" id="newsletterForm">
+                        <input type="email" placeholder="بريدك الإلكتروني" class="bg-white/10 border border-white/20 rounded-r-full px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-accent" required>
+                        <button type="submit" class="bg-accent hover:bg-opacity-90 text-white px-4 rounded-l-full -mr-1">
                             <i class="fas fa-arrow-left"></i>
                         </button>
                     </form>
@@ -712,19 +928,31 @@
     
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
+        // تهيئة المتغيرات العامة
+        const colors = {
+            primary: '#5D4037',
+            secondary: '#D7CCC8',
+            accent: '#8B5A2B',
+            light: '#f8f5f2',
+            dark: '#3E2723'
+        };
+        
+        // تهيئة التايلويند
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: {
-                        primary: '#5D4037',
-                        secondary: '#D7CCC8',
-                        accent: '#8B5A2B',
-                        highlight: '#8B5A2B',
-                        'primary-dark': '#3E2723',
-                    }
+                    colors: colors
                 }
             }
         }
+        
+        // شاشة التحميل
+        window.addEventListener('load', function() {
+            const loadingScreen = document.getElementById('loadingScreen');
+            setTimeout(() => {
+                loadingScreen.classList.add('hidden');
+            }, 1500);
+        });
         
         // شريط التقدم
         window.onscroll = function() {
@@ -732,7 +960,31 @@
             const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
             const scrolled = (winScroll / height) * 100;
             document.getElementById("progressBar").style.width = scrolled + "%";
+            
+            // إظهار/إخفاء زر العودة للأعلى
+            const backToTop = document.getElementById('backToTop');
+            if (winScroll > 300) {
+                backToTop.classList.add('show');
+            } else {
+                backToTop.classList.remove('show');
+            }
+            
+            // تأثير الظل على الهيدر
+            const header = document.getElementById('header');
+            if (winScroll > 50) {
+                header.classList.add('header-shadow');
+            } else {
+                header.classList.remove('header-shadow');
+            }
         }
+        
+        // زر العودة للأعلى
+        document.getElementById('backToTop').addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
         
         // تفعيل تأثيرات الظهور عند التمرير
         function animateOnScroll() {
@@ -751,6 +1003,10 @@
             slidesPerView: 1,
             spaceBetween: 30,
             loop: true,
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+            },
             pagination: {
                 el: '.swiper-pagination',
                 clickable: true,
@@ -770,10 +1026,11 @@
         // القائمة المتنقلة
         function toggleMenu() {
             const menu = document.getElementById('mobileMenu');
-            const header = document.querySelector('header');
+            const button = document.getElementById('mobileMenuButton');
+            const header = document.getElementById('header');
+            
             menu.classList.toggle('open');
             
-            const button = document.querySelector('.mobile-menu-button');
             if (menu.classList.contains('open')) {
                 button.innerHTML = '✕';
                 document.body.style.overflow = 'hidden';
@@ -785,28 +1042,73 @@
             }
         }
         
+        // إغلاق القائمة عند النقر خارجها
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('mobileMenu');
+            const button = document.getElementById('mobileMenuButton');
+            
+            if (!menu.contains(event.target) && !button.contains(event.target) && menu.classList.contains('open')) {
+                toggleMenu();
+            }
+        });
+        
         // تصفية القائمة حسب التصنيف
         function filterMenu(category) {
             const items = document.querySelectorAll('.menu-card');
             items.forEach(item => {
                 if (category === 'all' || item.dataset.category === category) {
                     item.style.display = 'block';
+                    setTimeout(() => {
+                        item.style.opacity = '1';
+                        item.style.transform = 'translateY(0)';
+                    }, 100);
                 } else {
-                    item.style.display = 'none';
+                    item.style.opacity = '0';
+                    item.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        item.style.display = 'none';
+                    }, 300);
                 }
             });
             
             // تحديث الأزرار النشطة
             const buttons = document.querySelectorAll('.menu-tabs button');
-            buttons.forEach(button => {
-                button.classList.remove('active');
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
             });
             event.target.classList.add('active');
         }
         
+        // إرسال نموذج الحجز
+        document.getElementById('reservationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // هنا يمكنك إضافة كود إرسال البيانات للخادم
+            alert('تم استلام طلب الحجز بنجاح! سنتواصل معك قريباً لتأكيد الحجز.');
+            this.reset();
+        });
+        
+        // إرسال النشرة البريدية
+        document.getElementById('newsletterForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // هنا يمكنك إضافة كود إرسال البريد الإلكتروني
+            alert('شكراً لاشتراكك في نشرتنا البريدية!');
+            this.reset();
+        });
+        
         // تهيئة الأحداث
         window.addEventListener('scroll', animateOnScroll);
         window.addEventListener('load', animateOnScroll);
+        document.getElementById('mobileMenuButton').addEventListener('click', toggleMenu);
+        
+        // إضافة تأثيرات إضافية للصور عند التحميل
+        window.addEventListener('load', function() {
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                img.addEventListener('load', function() {
+                    this.classList.add('loaded');
+                });
+            });
+        });
     </script>
 </body>
 </html>
